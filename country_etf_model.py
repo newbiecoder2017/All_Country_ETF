@@ -12,7 +12,7 @@ def pull_data(s):
     return data_df['Open'],data_df['High'], data_df['Low'], data_df['Close'], data_df['Adj Close'], data_df['Volume']
 
 def read_price_file(frq = 'BM'):
-    df_price = pd.read_csv("C:/Python27/Git/SMA_GTAA/adj_close.csv", index_col='Date', parse_dates=True)
+    df_price = pd.read_csv("C:/Python27/Git/All_Country_ETF/aclose.csv", index_col='Date', parse_dates=True)
     df_price = df_price.resample(frq, closed='right').last()
     return df_price
 
@@ -61,7 +61,25 @@ def stock_data_csv(universeList):
 
 def format_oecd_data():
     read_oecd = pd.read_csv("C:/Python27/Git/All_Country_ETF/LEI_Data.csv", index_col= ['TIME'])
-    print(read_oecd.tail())
+    read_oecd = read_oecd[['LOCATION','Value']]
+    grouped_oecd = read_oecd.pivot(columns='LOCATION', values='Value')
+    read_oecd_info = pd.read_csv("C:/Python27/Git/All_Country_ETF/Universe_Description.csv")
+    oecd_info_ls = read_oecd_info.OECD_Codes.tolist()
+    oecd_data_ls = grouped_oecd.columns.tolist()
+    clean_list = []
+    for x in oecd_data_ls:
+        if x in oecd_info_ls:
+
+            clean_list.append(x)
+
+    grouped_oecd = grouped_oecd[clean_list]['2000-12':]
+    level_change = grouped_oecd.pct_change(periods = 12)
+    monthly_change = grouped_oecd.pct_change(periods = 1)
+    print(monthly_change)
+
+
+
+
 if __name__ == "__main__":
 
     universe_list = ['NGE', 'EGPT', 'GXC', 'NORW', 'EPU', 'VNM', 'THD', 'ECH', 'PGAL', 'KSA', 'EWO', 'EWS', 'EWH',
@@ -70,4 +88,6 @@ if __name__ == "__main__":
                      'EPHE', 'EWW', 'IDX', 'TUR']
 
     # stock_data_csv(universe_list)
-    format_oecd_data()
+    # format_oecd_data()
+    px = read_price_file(frq='BM')
+    print(px.isnull().sum())
