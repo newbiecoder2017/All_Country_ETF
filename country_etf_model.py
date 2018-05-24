@@ -75,43 +75,70 @@ def format_oecd_data():
 
     #reading the OECD Description file for mapping symbols and OECD codes
     read_oecd_info = pd.read_csv("C:/Python27/Git/All_Country_ETF/Universe_Description.csv")
+    #list of OECD_Codes
     oecd_info_ls = read_oecd_info.OECD_Codes.tolist()
+    #List of pivoted OCED_Columns (tickers)
     oecd_data_ls = grouped_oecd.columns.tolist()
     clean_list = []
+    #Matching the OECD Codes with the Symbol
     for x in oecd_data_ls:
         if x in oecd_info_ls:
             clean_list.append(x)
     oecd_info_sym = read_oecd_info.Symbol.tolist()
+    #truncating the data from 2000
     grouped_oecd = grouped_oecd[clean_list]['2000-12':]
+    #mapping the OECD codes to Symbol for the final dataframe
     list_to_dict = dict(zip(oecd_info_sym, oecd_info_ls))
-
+    #Creating the dataframe with the mapped OECD_Codes
     for k, v in list_to_dict.items():
         if v in grouped_oecd.columns:
             grouped_oecd.rename(columns={v: k}, inplace=True)
 
+    #calculating 12 month OECD LEI level change
     level_change = grouped_oecd.pct_change(periods = 12)
-    monthly_change = grouped_oecd.pct_change(periods = 1)
+    # calculating monthly change of levels
+    monthly_change = level_change.pct_change(periods = 3)
     return level_change, monthly_change
 
 
-def clean_score(x):
-    if x >= 3.5:
-        x = 3.5
-    elif x <= -3.5:
-        x = -3.5
-    else:
-        x = x
-    return x
-
 def zscore_data(data, window = 12, axis = 0):
 
+    # time series scores for the rolling period
     ts_score = (data - data.rolling(window).mean())/data.rolling(window).std()
-    tsScore = ts_score.applymap(clean_score)
-
+    #cliping scores for lower and upper boundary of -3.5 to 3.5
+    tsScore = ts_score.clip(-3.5, 3.5)
+    # crossectional zscore
     csScore = pd.DataFrame(stats.zscore(tsScore, axis = 1), index = data.index, columns=data.columns)
-    csScore = csScore.applymap(clean_score)
+    # cliping scores for lower and upper boundary of -3.5 to 3.5
+    csScore = csScore.clip(-3.5, 3.5)
     return csScore
 
+def fractile_filter(data):
+    q_list = []
+    for row in data.iterrows():
+        low_cond = row[1]>=row[1]['low_filter']
+        up_cond = row[1]< row[1]['up_filter']
+        cond = (low_cond & up_cond)
+        q_list.append(cond)
+        # q_list.append(row[1]>row[1]['filter'])
+    return q_list
+
+def fractile_analysis(data, px_data, q1, q2):
+    #filter data based on the lower and upper bound
+    data['low_filter'] = data.quantile(q=q1, numeric_only=True, axis=1)
+    data['up_filter'] = data.quantile(q=q2, numeric_only=True, axis=1)
+    #dataframe with the filtered data
+    data = data[pd.DataFrame(fractile_filter(data))]
+    #remove the filter column
+    data = data.drop('low_filter', axis = 1)
+    data = data.drop('up_filter', axis=1)
+    #Calcaulte the monthly price returns and lag it by month
+    returns_df  = px_data.pct_change().shift(-1)
+    #calculate the returns of the holding for the fractiles
+
+    fractile_return = returns_df[data.notnull()]
+    fractile_return= fractile_return.shift(1)
+    return fractile_return
 
 
 if __name__ == "__main__":
@@ -124,16 +151,41 @@ if __name__ == "__main__":
     # stock_data_csv(universe_list)
     levelChange, monthlyChange = format_oecd_data()
     price_df = read_price_file(frq='BM', cols = levelChange.columns)
+    #crossectional scores for 12 months of level change
     cs_Score_level = zscore_data(levelChange, window = 12, axis = 1)
+    #cross-sectional scores for i month of level change
     cs_Score_monthly = pd.DataFrame(stats.zscore(monthlyChange, axis = 1), index = monthlyChange.index, columns=monthlyChange.columns)
-    cs_Score_monthly = cs_Score_monthly.applymap(clean_score)
-    composite_oecd_score = (0.8*cs_Score_level) + (0.2*cs_Score_monthly)
+    # cliping scores for lower and upper boundary of -3.5 to 3.5
+    cs_Score_monthly = cs_Score_monthly.clip(-3.5, 3.5)
+    #composite the level change factor scores
+    composite_oecd_score = (1.0*cs_Score_level) + (0.0*cs_Score_monthly)
+    #adjusting the date index to year and month format to match the price data
+    price_df.index = price_df.index.strftime("%Y-%m")
+    #list for fractile analysis
+    fractile_list = np.arange(0.0, 1.0, 0.1)
+    #looping ove to get the fractile return dataframe
+    returns_list = []
+    for i in fractile_list:
 
-    filter_q = composite_oecd_score.quantile(q=0.7, numeric_only = True, axis = 1)
-    # print(composite_oecd_score[composite_oecd_score>filter_q])
-    for i in range(len(filter_q)):
+        frac_portfolio = fractile_analysis(composite_oecd_score, price_df, q1 =i, q2 = i+0.1)
+        temp = frac_portfolio.mean(axis=1).values.tolist()
+        returns_list.append(temp)
 
-        print(np.where(composite_oecd_score.iloc[i]>filter_q[i],composite_oecd_score,0))
+    fractile_df = pd.DataFrame({i :returns_list[i] for i in range(len(returns_list))}, index=price_df.index)
+    fractile_df = fractile_df.rename(columns=({0:'Q1', 1:'Q2',2:'Q3', 3:'Q4', 4:'Q5',5:'Q6', 6:'Q7',7:'Q8', 8:'Q9',9:'Q10'}))
+    fractile_df.dropna(inplace=True)
+    fractile_spread =  fractile_df['Q10'].mean() - fractile_df.mean()
+
+    fractile_df.loc['2005-07'] = 0.0
+    print(composite_oecd_score)
+    # plt.grid()
+    # plt.show()
+
+
+
+
+
+
 
 
 
