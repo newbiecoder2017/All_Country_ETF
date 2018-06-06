@@ -10,7 +10,7 @@ pd.options.display.float_format = '{:.3f}'.format
 
 
 def pull_data(s):
-    data_df =  pdr.get_data_yahoo(s, start="2000-11-30", end="2018-04-30")
+    data_df =  pdr.get_data_yahoo(s, start="2000-11-30", end="2018-05-31")
     return data_df['Open'],data_df['High'], data_df['Low'], data_df['Close'], data_df['Adj Close'], data_df['Volume']
 
 def read_price_file(frq = 'BM', cols=[]):
@@ -68,7 +68,7 @@ def format_oecd_data():
     read_oecd = read_oecd[['LOCATION','Value']]
     grouped_oecd = read_oecd.pivot(columns='LOCATION', values='Value')
 
-    #The LEI indicator is lagged by 2 months. Adding 2 months on the index and shiifting the dat forward
+    #The LEI indicator is lagged by 2 months. Adding 2 months on the index and shiifting the data forward
     grouped_oecd.loc['2018-04'] = 0.0
     grouped_oecd.loc['2018-05'] = 0.0
     grouped_oecd = grouped_oecd.shift(2)
@@ -135,11 +135,21 @@ def fractile_analysis(data, px_data, q1, q2):
     #Calcaulte the monthly price returns and lag it by month
     returns_df  = px_data.pct_change().shift(-1)
     #calculate the returns of the holding for the fractiles
-
     fractile_return = returns_df[data.notnull()]
+    ic_sig = data.corrwith(fractile_return, axis = 1, drop=True)
     fractile_return= fractile_return.shift(1)
-    return fractile_return
+    #prints the trade recommendations
+    print("Trades for %s decile is" %(str(q1)))
+    print(fractile_return[-1:].dropna(axis= 1))
+    return fractile_return, ic_sig
 
+def signal_test(scores, prices, q):
+    sc_filter= scores>=scores.quantile(q, axis=1)
+    filtered_scores = scores[sc_filter]
+    returns_df = prices.pct_change().shift(-1)
+    returns_df = returns_df[sc_filter]
+    ts_corr = filtered_scores.corrwith(returns_df,axis = 1,drop=True).dropna()
+    return ts_corr
 
 if __name__ == "__main__":
 
@@ -152,7 +162,7 @@ if __name__ == "__main__":
     levelChange, monthlyChange = format_oecd_data()
     price_df = read_price_file(frq='BM', cols = levelChange.columns)
     #crossectional scores for 12 months of level change
-    cs_Score_level = zscore_data(levelChange, window = 12, axis = 1)
+    cs_Score_level = zscore_data(levelChange, window = 3, axis = 1)
     #cross-sectional scores for i month of level change
     cs_Score_monthly = pd.DataFrame(stats.zscore(monthlyChange, axis = 1), index = monthlyChange.index, columns=monthlyChange.columns)
     # cliping scores for lower and upper boundary of -3.5 to 3.5
@@ -165,21 +175,26 @@ if __name__ == "__main__":
     fractile_list = np.arange(0.0, 1.0, 0.1)
     #looping ove to get the fractile return dataframe
     returns_list = []
+    ic_list = []
     for i in fractile_list:
 
-        frac_portfolio = fractile_analysis(composite_oecd_score, price_df, q1 =i, q2 = i+0.1)
+        frac_portfolio,ic_portfolio = fractile_analysis(composite_oecd_score, price_df, q1 =i, q2 = i+0.1)
         temp = frac_portfolio.mean(axis=1).values.tolist()
         returns_list.append(temp)
+        ic_list.append(ic_portfolio)
 
     fractile_df = pd.DataFrame({i :returns_list[i] for i in range(len(returns_list))}, index=price_df.index)
     fractile_df = fractile_df.rename(columns=({0:'Q1', 1:'Q2',2:'Q3', 3:'Q4', 4:'Q5',5:'Q6', 6:'Q7',7:'Q8', 8:'Q9',9:'Q10'}))
     fractile_df.dropna(inplace=True)
     fractile_spread =  fractile_df['Q10'].mean() - fractile_df.mean()
-
     fractile_df.loc['2005-07'] = 0.0
-    print(composite_oecd_score)
-    # plt.grid()
-    # plt.show()
+    #calculate the decile
+    ic_df = pd.DataFrame(ic_list)
+    ic_df = ic_df.T
+    ic_df = ic_df.rename(columns=({0: 'Q1', 1: 'Q2', 2: 'Q3', 3: 'Q4', 4: 'Q5', 5: 'Q6', 6: 'Q7', 7: 'Q8', 8: 'Q9', 9: 'Q10'}))
+    ic_df['Q10'].rolling(6).mean().plot(kind = 'bar')
+    plt.grid()
+    plt.show()
 
 
 
