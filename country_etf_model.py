@@ -158,6 +158,7 @@ if __name__ == "__main__":
                      'EWG', 'EWU', 'EZA', 'EWD', 'EWK', 'PIN', 'GXG', 'PLND', 'EWL', 'EIS', 'EWP', 'GREK', 'UAE', 'QAT',
                      'EPHE', 'EWW', 'IDX', 'TUR']
 
+    #pull historical data
     # stock_data_csv(universe_list)
     levelChange, monthlyChange = format_oecd_data()
     price_df = read_price_file(frq='BM', cols = levelChange.columns)
