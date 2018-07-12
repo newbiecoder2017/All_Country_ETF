@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d89090bd-64b5-42e2-9fc4-6c00025d9282" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/country_etf_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/country_etf_model.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="GTAA_Model.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GTAA_Model.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../SMA_GTAA/GTAA_Model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="64">
-              <caret line="359" lean-forward="true" selection-start-line="359" selection-end-line="359" />
+            <state relative-caret-position="9504">
+              <caret line="359" selection-start-line="359" selection-end-line="359" />
             </state>
           </provider>
         </entry>
@@ -26,10 +25,24 @@
       <file leaf-file-name="Indicators.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../Technical_Indicators/Indicators.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="118">
-              <caret line="216" column="14" selection-start-line="216" selection-start-column="14" selection-end-line="216" selection-end-column="14" />
+            <state relative-caret-position="6750">
+              <caret line="253" selection-start-line="253" selection-end-line="253" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ML_TA.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/../MachineLearning/ML_TA.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="64">
+              <caret line="140" column="9" selection-start-line="140" selection-start-column="9" selection-end-line="140" selection-end-column="9" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
+                <element signature="e#413#3746#0" />
+                <element signature="e#3747#3825#0" />
               </folding>
             </state>
           </provider>
@@ -66,12 +79,13 @@
         <option value="$PROJECT_DIR$/country_etf_model.py" />
         <option value="$PROJECT_DIR$/../Technical_Indicators/Indicators.py" />
         <option value="$PROJECT_DIR$/../SMA_GTAA/GTAA_Model.py" />
+        <option value="$PROJECT_DIR$/../MachineLearning/ML_TA.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-59" />
-    <option name="y" value="87" />
+    <option name="x" value="-134" />
+    <option name="y" value="66" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
@@ -95,7 +109,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Technical_Indicators/Indicators.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../MachineLearning/ML_TA.py" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RunDashboard">
@@ -110,7 +124,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.GTAA_Model">
+  <component name="RunManager" selected="Python.ML_TA">
     <configuration name="GTAA_Model" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="All_Country_ETF" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -142,6 +156,24 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../Technical_Indicators/Indicators.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="ML_TA" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="All_Country_ETF" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../MachineLearning" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../MachineLearning/ML_TA.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -188,9 +220,11 @@
       <item itemvalue="Python.yahoo_data" />
       <item itemvalue="Python.GTAA_Model" />
       <item itemvalue="Python.Indicators" />
+      <item itemvalue="Python.ML_TA" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.ML_TA" />
         <item itemvalue="Python.GTAA_Model" />
         <item itemvalue="Python.Indicators" />
         <item itemvalue="Python.country_etf_model" />
@@ -213,17 +247,18 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.10906217" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.72960895" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.72960895" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32960895" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.6201117" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.6201117" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -238,17 +273,76 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/../Technical_Indicators/Indicators.py</url>
-          <line>213</line>
-          <option name="timeStamp" value="47" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="48" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/../SMA_GTAA/GTAA_Model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9693">
+          <caret line="359" selection-start-line="359" selection-end-line="359" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Technical_Indicators/Indicators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6831">
+          <caret line="253" lean-forward="true" selection-start-line="253" selection-end-line="253" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/country_etf_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4320">
+          <caret line="160" selection-start-line="160" selection-end-line="161" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../MachineLearning/ML_TA.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3807">
+          <caret line="141" lean-forward="true" selection-start-line="141" selection-end-line="141" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#413#3746#0" />
+            <element signature="e#3747#3825#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../SMA_GTAA/GTAA_Model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9693">
+          <caret line="359" lean-forward="true" selection-start-line="359" selection-end-line="359" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/country_etf_model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4320">
+          <caret line="160" selection-start-line="160" selection-end-line="161" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../Technical_Indicators/Indicators.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6345">
+          <caret line="235" column="7" lean-forward="true" selection-start-line="235" selection-start-column="7" selection-end-line="235" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../SMA_GTAA/GTAA_Model.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6264">
@@ -490,20 +584,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../SMA_GTAA/GTAA_Model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9504">
+          <caret line="359" selection-start-line="359" selection-end-line="359" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../Technical_Indicators/Indicators.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="216" column="14" selection-start-line="216" selection-start-column="14" selection-end-line="216" selection-end-column="14" />
+        <state relative-caret-position="6750">
+          <caret line="253" selection-start-line="253" selection-end-line="253" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../SMA_GTAA/GTAA_Model.py">
+    <entry file="file://$PROJECT_DIR$/../MachineLearning/ML_TA.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="64">
-          <caret line="359" lean-forward="true" selection-start-line="359" selection-end-line="359" />
+          <caret line="140" column="9" selection-start-line="140" selection-start-column="9" selection-end-line="140" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#413#3746#0" />
+            <element signature="e#3747#3825#0" />
+          </folding>
         </state>
       </provider>
     </entry>
